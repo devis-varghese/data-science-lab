@@ -1,0 +1,295 @@
+<<<KMEANS>>>>
+......
+import numpy as nm
+import matplotlib.pyplot as mtp
+import pandas as pd
+dataset = pd.read_csv('cities.csv')
+x = dataset.iloc[:, [1, 2]].values
+print(x)
+from sklearn.cluster import KMeans
+wcss_list = []
+for i in range(1, 11):
+ kmeans = KMeans(n_clusters=i, init='k-means++', random_state=42)
+ kmeans.fit(x)
+ wcss_list.append(kmeans.inertia_)
+mtp.plot(range(1, 11), wcss_list)
+mtp.title('The Elbow Method Graph')
+mtp.xlabel('Number of clusters(k)')
+mtp.ylabel('wcss_list')
+mtp.show()
+kmeans = KMeans(n_clusters=3, init='k-means++', random_state=42)
+y_predict = kmeans.fit_predict(x)
+print(y_predict)
+mtp.scatter(x[y_predict == 0, 0], x[y_predict == 0, 1], s=100, c='blue', label='cluster 1')
+mtp.scatter(x[y_predict == 1, 0], x[y_predict == 1, 1], s=100, c='green', label='cluster 2')
+mtp.scatter(x[y_predict == 2, 0], x[y_predict == 2, 1], s=100, c='red', label='cluster 3')
+mtp.scatter(kmeans.cluster_centers_[:, 0], kmeans.cluster_centers_[:, 1], s=300, c='black',
+label='cluster')
+mtp.title('Clusters of customers')
+mtp.xlabel('Annual Income (K$)')
+mtp.ylabel('Spending Score(1-100)')
+mtp.legend()
+mtp.show()
+
+
+<<<KNN>>>
+....
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.datasets import load_iris
+from sklearn.metrics import accuracy_score
+irisData=load_iris()
+a=irisData.data
+b=irisData.target
+a_train,a_test,b_train,b_test=train_test_split(a,b,test_size=0.3,random_state=42)
+knn=KNeighborsClassifier(n_neighbors=9)
+knn.fit(a_train,b_train)
+c=knn.predict(a_test)
+acc=accuracy_score(b_test,c)
+print(c)
+print(acc)
+
+<<<<NAIVE BAYES>>>>>
+...........
+import sklearn
+from sklearn import datasets
+from sklearn import metrics
+from sklearn.model_selection import train_test_split
+from sklearn.naive_bayes import GaussianNB
+from knn import irisData
+
+#Load iris dataset
+iris=datasets.load_iris()
+a=irisData.data
+b=irisData.target
+
+#Split the data into training and test sets
+x_train,x_test,y_train,y_test=train_test_split(a,b,test_size=0.3,random_state=42)
+
+#train the model
+model=GaussianNB()
+model.fit(x_train,y_train)
+
+#make predictions on the test data
+predictions=model.predict(x_test)
+print(predictions)
+
+#print the accuracy
+print(metrics.accuracy_score(y_test,predictions))
+
+<<<<<<LINEAR REGRESSION>>>>>>>>
+.................
+#simple linear regressiion
+#importing the libraries
+import numpy as np
+import matplotlib.pyplot as plt
+import pandas as pd
+
+#importing the dataset
+dataset=pd.read_csv('Mall_Customers.csv')
+x=dataset.iloc[:,:-1].values
+y=dataset.iloc[:,1].values
+
+#splitting the dataset into the training set and list set
+from sklearn.model_selection import train_test_split
+x_train,x_test,y_train,y_test=train_test_split(x,y,test_size=1/3,random_state=0)
+#fitting simple linear regression to the training set
+from sklearn.linear_model import LinearRegression
+regressor=LinearRegression()
+regressor.fit(x_train,y_train)
+#predicting the test set results
+y_pred=regressor.predict(x_test)
+#visualising the training set results
+plt.scatter(x_train,y_train,color='red')
+plt.plot(x_train,regressor.predict(x_train),color='blue')
+plt.title('Salary vs experience(Test set)')
+plt.xlabel('years of experience')
+plt.ylabel('salary')
+plt.show()
+
+
+<<<<<<DECISION TREE>>>>>>>
+.............
+# import necessary libraries
+from sklearn import datasets
+from sklearn import tree
+from sklearn.model_selection import train_test_split
+import matplotlib.pyplot as plt
+
+# load the iris dataset as an example
+iris = datasets.load_iris()
+X = iris.data
+y = iris.target
+
+# split the data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=42,test_size=0.1)
+
+# train the decision tree model
+model = tree.DecisionTreeClassifier()
+model.fit(X_train, y_train)
+
+# make predictions on the testing data
+predictions = model.predict(X_test)
+
+# calculate the accuracy of the model
+accuracy = model.score(X_test, y_test)
+print("Accuracy:", accuracy)
+
+# plot the decision tree
+plt.figure(figsize=[10,10])
+tree.plot_tree(model, filled=True)
+plt.show()
+
+<<<<<<NGRAMS>>>>>
+......
+import nltk
+# nltk.download()
+from nltk.util import ngrams
+samplText = 'welcome to amal jyothi college of engineering'
+NGRAMS = ngrams(sequence=nltk.word_tokenize(samplText), n=3)
+for grams in NGRAMS:
+    print(grams)
+
+<<<<<<CHUNKING>>>>>>>
+........
+import nltk
+new = "The big cat ate the little mouse who was after the fresh cheese"
+new_tokens = nltk.word_tokenize(new)
+print(new_tokens)
+new_tag = nltk.pos_tag(new_tokens)
+print(new_tag)
+grammer = "NP: {<DT>?<JJ>*<NN>}"
+chunkParser = nltk.RegexpParser(grammer)
+chunked = chunkParser.parse(new_tag)
+print(chunked)
+chunked.draw()
+
+<<<<<<WEB CRAWLER>>>>>>>
+...........
+import requests
+from bs4 import BeautifulSoup
+URL = "http://www.ajce.in"
+r = requests.get(URL)
+soup = BeautifulSoup(r.content, 'html.parser')
+print(soup)
+
+<<<<<MATPLOT LIB>>>>>>>
+import matplotlib.pyplot as plt
+x = [1, 2, 3]
+y = [2, 4, 1]
+plt.plot(x, y)
+plt.xlabel('x - axis')
+plt.ylabel('y - axis')
+plt.title('My first graph!')
+plt.show()
+import plotly.express as px
+fig = px.bar(x=["a", "b", "c"], y=[1, 3, 2])
+fig.show()
+from bokeh.plotting import figure, output_file, show
+graph = figure(title = "Bokeh Line Graph")
+u = [1, 2, 3, 4, 5]
+v = [5, 4, 3, 2, 1]
+graph.line(u, v)
+show(graph)
+import seaborn as sns
+data = sns.load_dataset("iris")
+sns.lineplot(x="sepal_length", y="sepal_width", data=data)
+plt.title('Title using Matplotlib Function')
+plt.show()
+
+
+<<<<<PANDAS>>>>>>
+import pandas as pd
+df = pd.DataFrame.from_dict({
+ 'Name': ['Nik', 'Kate', 'Joe', 'Mitch', 'Alana'],
+ 'Age': [32, 30, 67, 34, 20],
+ 'Income': [80000, 90000, 45000, 23000, 12000],
+ 'Education' : [5, 7, 3, 4, 4]
+})
+print(df.head())
+
+
+
+<<<<<<TAGGING>>>>>>
+import nltk
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize, sent_tokenize
+stop_words = set(stopwords.words('english'))
+txt = "Sukanya, Rajib and Naba are my good friends. " \
+ "Sukanya is getting married next year. " \
+ "Marriage is a big step in one’s life." \
+ "It is both exciting and frightening. " \
+ "But friendship is a sacred bond between people." \
+ "It is a special kind of love between us. " \
+ "Many of you must have tried searching for a friend " \
+ "but never found the right one."
+tokenized = sent_tokenize(txt)
+for i in tokenized:
+ wordsList = nltk.word_tokenize(i)
+ wordsList = [w for w in wordsList if not w in stop_words]
+ tagged = nltk.pos_tag(wordsList)
+ print(tagged)
+
+<<<<<SVD>>>>>
+
+
+import numpy as np
+
+mat1=np.array([[12,23,22],[5,87,34],[44,77,3]])
+mat2=np.array([[12,32,22],[7,78,43],[44,77,3]])
+
+print('Addition')
+print(np.add(mat1,mat2))
+print(np.subtract(mat1,mat2))
+print(np.divide(mat1,mat2))
+print(np.multiply(mat1,mat2))
+
+from scipy.linalg import svd
+A = np.array([[12, 21, 39], [94, 75, 46], [37, 80, 94], [64, 34, 99], [38, 12, 89]])
+U,s,VT = svd(A)
+print("Decomposed matrix:\n",U)
+print("Inverse matrix\n",s)
+print('Transponse matrix:\n',VT)
+
+
+
+<<<SVM>>>>>
+
+
+import matplotlib.pyplot as plt
+import numpy as np
+from sklearn.datasets import make_blobs
+from sklearn.svm import SVC
+
+# Generate sample data
+X, y = make_blobs(n_samples=50, centers=2, random_state=0, cluster_std=0.60)
+
+# Fit SVM model
+model = SVC(kernel='linear', C=1)
+model.fit(X, y)
+
+# Plot decision boundary
+plt.scatter(X[:, 0], X[:, 1], c=y, s=50, cmap='autumn')
+ax = plt.gca()
+xlim = ax.get_xlim()
+ylim = ax.get_ylim()
+
+# create grid to evaluate model
+xx = np.linspace(xlim[0], xlim[1], 30)
+yy = np.linspace(ylim[0], ylim[1], 30)
+YY, XX = np.meshgrid(yy, xx)
+xy = np.vstack([XX.ravel(), YY.ravel()]).T
+Z = model.decision_function(xy).reshape(XX.shape)
+
+# plot decision boundary and margins
+ax.contour(XX, YY, Z, colors='k', levels=[-1, 0, 1], alpha=0.5,
+           linestyles=['--', '-', '--'])
+
+# plot support vectors
+ax.scatter(model.support_vectors_[:, 0], model.support_vectors_[:, 1], s=100,
+           linewidth=1, facecolors='none', edgecolors='k')
+plt.show()
+
+
+
+
